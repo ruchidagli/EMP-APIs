@@ -1,0 +1,95 @@
+<h3 style="text-align: center;">
+    {{viewTitle}}
+</h3>
+
+<div autocomplete="off" style="align-items: center;">
+    <div class="form-group">
+        <label>First Name (*)</label>
+        <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name"
+            value="{{employee.firstName}}">
+    </div>
+    <div class="form-group">
+        <label>Last Name (*)</label>
+        <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" value="{{employee.lastName}}">
+    </div>
+    <div class="form-group">
+        <label>Hire Date (*)</label>
+        <input type="date" class="form-control" name="hireDate" id="hireDate" placeholder="Hire Date" value="{{employee.hireDate}}">
+    </div>
+    <div class="form-group">
+        <label>Role (choose any one - CEO|VP|MANAGER|LACKEY)</label>
+        <input type="text" class="form-control" name="role" id="role" placeholder="Role" value="{{employee.role}}">
+    </div>
+    <div class="form-group">
+        <label>Favorite Joke</label>
+        <input type="text" class="form-control" name="favJoke" id="favJoke" placeholder="Favorite Joke" value="{{employee.favJoke}}">
+    </div>
+    <div class="form-group">
+        <label>Favorite Quote</label>
+        <input type="text" class="form-control" name="favQuote" id="favQuote" placeholder="Favorite Quote"
+            value="{{employee.favQuote}}">
+    </div>
+    <div id="errors" style="color: red;">
+        {{#each errors}}
+            
+        {{/each}}
+    </div>
+    <div id="success" style="color: green;" >
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" onclick="return callEditEmployee({{employee.id}})"><i
+                class="fa fa-database"></i>&nbsp;&nbsp;Update</button>
+    </div>
+</div>
+
+<script>
+    function callEditEmployee(id) {
+        data = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            hireDate: document.getElementById("hireDate").value,
+            role: document.getElementById("role").value,
+            favJoke: document.getElementById("favJoke").value,
+            favQuote: document.getElementById("favQuote").value
+        };
+
+        return fetch(`/api/employees/edit/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            if (data.errors && Array.isArray(data.errors) && data.errors.length != 0) {
+                 document.getElementById("errors").hidden = false;
+                 document.getElementById("success").hidden = true;
+                elem = document.getElementById("errors");
+                while (elem.firstChild) {
+                    elem.removeChild(elem.lastChild);
+                }
+                data.errors.forEach((item, index) => {
+                    var node = document.createElement("li");
+                    var textnode = document.createTextNode(`${item}`);
+                    node.appendChild(textnode);
+                    elem.appendChild(node);
+                });
+            } else {
+                document.getElementById("errors").hidden = true;
+                document.getElementById("success").hidden = false;
+                elem = document.getElementById("success");
+                while (elem.firstChild) {
+                    elem.removeChild(elem.lastChild);
+                }
+                var node = document.createElement("li");
+                var textnode = document.createTextNode(`Successfully updated.`);
+                node.appendChild(textnode);
+                elem.appendChild(node);
+            }
+        });
+    }
+</script>

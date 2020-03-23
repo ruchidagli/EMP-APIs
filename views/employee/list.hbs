@@ -1,0 +1,47 @@
+<h3 style="text-align: center;">Employees List</h3>
+<h3 style="text-align: end;"><a class="btn btn-primary" href="/api/employees/create"><i class="fa fa-plus"></i> Add New Employee</a> </h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Hire Date</th>
+            <th>Role</th>
+            <th>Favorite Joke</th>
+            <th>Favorite Quote</th>
+            <th>Raw Data</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {{#each list}}
+        <tr>
+            <td>{{this.firstName}}</td>
+            <td>{{this.lastName}}</td>
+            <td>{{this.hireDate}}</td>
+            <td>{{this.role}}</td>
+            <td>{{this.favJoke}}</td>
+            <td>{{this.favQuote}}</td>
+            <td><a href="/api/employees/{{this.id}}">Json Response</a></td>
+            <td>
+                <a href="/api/employees/edit/{{this.id}}"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;</a>
+                <a href="" onclick="return callDeleteEmployee({{this.id}})"><i
+                        class="fa fa-trash fa-lg" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<script>
+    function callDeleteEmployee(id) {
+        return fetch(`/api/employees/${id}`, {
+            method: 'delete'
+        }).then(response =>
+            response.json().then(json => {
+                return json;
+            })
+        );
+    }
+</script>
