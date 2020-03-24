@@ -32,17 +32,17 @@ const sql_create_emp = `CREATE TABLE IF NOT EXISTS Employee (
       return console.error(err.message);
     }
     console.log("'Employee' table created!");
-  });
 
-  const sql_insert_emp = `INSERT INTO Employee (firstName, lastName, hireDate,role,favJoke,favQuote) VALUES
-  ('Foo', 'Bar', '2000-01-01','CEO','I am not lazy.I am on Energy saving mode.','Raleigh is Best Place to live.')`;
-  db.run(sql_insert_emp, err => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log("One Employee created successfully.");
-  });
+    const sql_insert_emp = `INSERT INTO Employee (firstName, lastName, hireDate,role,favJoke,favQuote) VALUES
+    ('Foo', 'Bar', '2000-01-01','CEO','I am not lazy.I am on Energy saving mode.','Raleigh is Best Place to live.')`;
+      db.run(sql_insert_emp, err => {
+        if (err) {
+          return console.error(err.message);
+        }
+        console.log("One Employee created successfully.");
+      });
 
+  });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
