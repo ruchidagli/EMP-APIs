@@ -60,7 +60,7 @@ router.post('/create', (req, res) => {
     }
   });
 
-  res.redirect("/api/employees/list");
+  res.redirect("/api/employees");
 });
 
 //Edit Employee - Get Endpoint for UI
